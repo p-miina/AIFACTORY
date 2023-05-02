@@ -6,7 +6,9 @@
 
 [목적]
 산업용 공기압축기의 이상 유무를 비지도학습 방식을 이용하여 판정
+
 [데이터]
+
 ![image](https://user-images.githubusercontent.com/116613061/235563388-c48bae1b-cad7-4276-878c-d80910324062.png)
 ![image](https://user-images.githubusercontent.com/116613061/235563394-5cac9184-53a2-4905-bec2-d1c55d91b591.png)
 

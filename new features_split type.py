@@ -42,6 +42,29 @@ seed_everything(42)
 train = pd.read_csv('/content/drive/MyDrive/AIFactory/train_outlier_0405_NF.csv')
 test = pd.read_csv('/content/drive/MyDrive/AIFactory/test_outlier_0405_NF.csv')
 
+# 새로운 피쳐 생성
+hp_dict = {0: 30, 1: 20, 2: 10, 3: 50, 4:30, 5:30, 6:30, 7:30}
+train['hp'] = train['type'].replace(hp_dict)
+test['hp'] = test['type'].replace(hp_dict)
+
+train['failure'] = (train['motor_temp']*train['motor_vibe']) / train['hp']
+train['air_density'] = train['air_inflow']/ ((8314.4621 / 28.9644) * (train['air_end_temp'] + 273.15))
+train['efficiency'] = (train['out_pressure'] * train['air_inflow'])/ (train['motor_current'] * train['motor_rpm']*0.001)
+train['massflowrate'] = train['air_inflow']*train['air_density']
+train['fluidpressure'] = train['out_pressure']/ ((8314.4621 / 28.9644) * (train['air_end_temp'] + 273.15))
+train['load'] = (train['motor_current'] * train['motor_rpm'] * 0.001) / train['hp']
+
+test['failure'] = (test['motor_temp']*test['motor_vibe']) / test['hp']
+test['air_density'] = test['air_inflow']/ ((8314.4621 / 28.9644) * (test['air_end_temp'] + 273.15))
+test['efficiency'] = (test['out_pressure'] * test['air_inflow'])/ (test['motor_current'] * test['motor_rpm']*0.001)
+test['massflowrate'] = test['air_inflow']*test['air_density']
+test['fluidpressure'] = test['out_pressure']/ ((8314.4621 / 28.9644) * (test['air_end_temp'] + 273.15))
+test['load'] = (test['motor_current'] * test['motor_rpm'] * 0.001) / test['hp']
+
+train.drop(['out_pressure', 'hp'],axis=1, inplace=True)
+test.drop(['out_pressure', 'hp'],axis=1, inplace=True)
+# train
+
 # 데이터 타입별 나누기
 train_t0 = train.loc[train['type']==0].drop('type',axis=1)
 train_t1 = train.loc[train['type']==1].drop('type',axis=1)
